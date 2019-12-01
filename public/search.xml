@@ -60,6 +60,11 @@
 ]]></content>
   </entry>
   <entry>
+    <title>Java</title>
+    <url>/Java/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>about</title>
     <url>/about/index.html</url>
     <content><![CDATA[]]></content>
@@ -67,6 +72,11 @@
   <entry>
     <title>categories</title>
     <url>/categories/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>tags</title>
+    <url>/tags/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
@@ -351,6 +361,7 @@ var tmp=0;
 var kkk=-1;
 for (var t = 0; t < urls.length ; t++) {
     var bucket=urls[t].innerHTML;
+    console.log("打印"+bucket)
     var length=bucket.indexOf('/');
     if(length===bucket.length-1){
         kkk++;
@@ -414,15 +425,5 @@ function moreClick(obj,cur,cont,title){
     }
 }
 </script>]]></content>
-  </entry>
-  <entry>
-    <title>tags</title>
-    <url>/tags/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>Java</title>
-    <url>/Java/index.html</url>
-    <content><![CDATA[]]></content>
   </entry>
 </search>
