@@ -112,7 +112,7 @@
 <meta property="og:site_name" content="樱木">
 <meta property="og:description" content=".posts-expand .post-body img{         padding: 1px;     }      .footer{         display: none !important;     }       &#x2F;*不展示底部*&#x2F;      .footer-inner{          display: none !important;      }">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-01T06:19:20.222Z">
+<meta property="og:updated_time" content="2019-12-01T06:28:52.436Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -573,6 +573,8 @@ function loadXMLDoc(xmlUrl)
 xmlDoc=loadXMLDoc("https://photos-1300816893.cos.ap-guangzhou.myqcloud.com");
 
 var urls = xmlDoc.getElementsByTagName('Key');
+console.log("xmlDoc.getElementByTagName>>>>"+urls)
+console.log("urls.length>>>>>"+urls.length)
 var date = xmlDoc.getElementsByTagName('LastModified');
 var wid = 350;
 var showNum = 21; //每个相册一次展示多少照片

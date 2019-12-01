@@ -75,6 +75,11 @@
     <content><![CDATA[]]></content>
   </entry>
   <entry>
+    <title>tags</title>
+    <url>/tags/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>光影流年</title>
     <url>/photos/index.html</url>
     <content><![CDATA[<style type="text/css">
@@ -344,6 +349,8 @@ function loadXMLDoc(xmlUrl)
 xmlDoc=loadXMLDoc("https://photos-1300816893.cos.ap-guangzhou.myqcloud.com");
 
 var urls = xmlDoc.getElementsByTagName('Key');
+console.log("xmlDoc.getElementByTagName>>>>"+urls)
+console.log("urls.length>>>>>"+urls.length)
 var date = xmlDoc.getElementsByTagName('LastModified');
 var wid = 350;
 var showNum = 21; //每个相册一次展示多少照片
@@ -422,10 +429,5 @@ function moreClick(obj,cur,cont,title){
     }
 }
 </script>]]></content>
-  </entry>
-  <entry>
-    <title>tags</title>
-    <url>/tags/index.html</url>
-    <content><![CDATA[]]></content>
   </entry>
 </search>
