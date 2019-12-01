@@ -75,11 +75,6 @@
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>tags</title>
-    <url>/tags/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>光影流年</title>
     <url>/photos/index.html</url>
     <content><![CDATA[<style type="text/css">
@@ -364,9 +359,10 @@ var kkk=-1;
 for (var t = 0; t < urls.length ; t++) {
     var bucket=urls[t].innerHTML;
     console.log("打印"+bucket)
-    var length=bucket.indexOf('/');
+    var length=bucket.indexOf('.');
     console.log("bucket.indexOf('/')>>>>"+length)
     console.log("bucket.length-1==>>>>"+bucket.length-1)
+    //if(length===bucket.length-1){
     if(length===bucket.length-1){
         kkk++;
         content[kkk]=new Array();
@@ -429,5 +425,10 @@ function moreClick(obj,cur,cont,title){
     }
 }
 </script>]]></content>
+  </entry>
+  <entry>
+    <title>tags</title>
+    <url>/tags/index.html</url>
+    <content><![CDATA[]]></content>
   </entry>
 </search>
