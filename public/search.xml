@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>@Test注解</title>
+    <url>/2019/11/28/%E6%B3%A8%E8%A7%A3/</url>
+    <content><![CDATA[<h2 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h2><p>  使用@Test对testExcute()方法进行注解，该注解本身不做任何事情，但是编译器要确保在其构造路径上必须有@Test注解的定义。例子中通过反射机制来运行testExecute()方法的工具。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> annotations;</span><br><span class="line"><span class="keyword">import</span> net.mindview.atunit.*;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Testable</span></span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">()</span></span>&#123;</span><br><span class="line">     System.out.println(<span class="string">"Executing.."</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="meta">@Test</span> <span class="function"><span class="keyword">void</span> <span class="title">testExecute</span><span class="params">()</span></span>&#123;</span><br><span class="line">  execute();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>   被注解的方法与其他的方法没有什么区别，在上面的例子中，注解@Test可以与任何修饰符共同作用与方法，例如public，static或者是void。</p>
+<h2 id="定义注解"><a href="#定义注解" class="headerlink" title="定义注解"></a>定义注解</h2><p>   看看@Test的注解类：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> net.mindview.atunit;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.*;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Target</span>(ElementType.METHOD)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Test&#123;&#125;;</span><br></pre></td></tr></table></figure>
+<p>   注解类其实是一个空的接口，在定义注解时，会需要一些元注解(meta-annotation)，如@Target和@Retention。</p>
+<ul>
+<li><p>@Target:  用来定义你的注解将应用于什么地方(打比方是一个方法或者是一个域)。</p>
+</li>
+<li><p>@Retention:  用来定义该注解在哪一个级别可用，在源码中(SOURCE)，类文件(CLASS)或者运行时(RUNTIME)。</p>
+<p>网上记载: 在注解中，一般都会包含一些元素以表示某些值，当分析处理注解时，程序或者是工具可以利用这些值。注解的元素看起来像接口的方法，唯一的区别是你可以为其指定默认值。没有元素的注解称为 “标记注解”，例如上面的@Test。<br>下面是一个简单的注解，我们可以用它来跟踪一个项目中的用例，如果一个方法或一组方法实现了某个用例的需求，那么程序员可以为此方法加上该注解。</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.annotation;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Target</span>(ElementType.METHOD)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> UseCase&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">id</span><span class="params">()</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">description</span><span class="params">()</span> <span class="keyword">default</span> "no description"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意，id和description类似方法定义。由于编译器会对id进行类型检查，因此将用例文档的追踪数据库与源码相关联是可靠的。description元素有一个default值，如果在注解某个方法时没有给出description的值，则该注解的处理器就会使用此元素的默认值。<br>在下面的类中三个方法被注解为用例:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PassworUtils</span></span>&#123;</span><br><span class="line">  <span class="meta">@UseCase</span>(id=<span class="number">47</span>,description = <span class="string">"Passwords must contain at least one numeric"</span>)</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">validatePassword</span><span class="params">(String password)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (passwor.matches(<span class="string">"\\w*\\d\\w*"</span>));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="meta">@UseCase</span>(id = <span class="number">48</span>)</span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">encryptPassword</span><span class="params">(String password)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> StringBuilder(password).reverse().toString();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="meta">@UseCase</span>(id =<span class="number">49</span>,description = <span class="string">"New passwords can't equal previously used ones"</span>)</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">checkForNewPassword</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">  List&lt;String&gt;prevPasswords,String password</span></span></span><br><span class="line"><span class="function"><span class="params">  )</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> !prevPasswords.contains(password);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>   注解的元素在使用时表现为名一值对的形式，并需要置于@UseCase声明之后的括号内。在encryptPassword()方法的注解中，并没有给出description元素的值，因此，在UseCase的注解处理器分析这个类时会使用该元素的默认值。</p>
+<h2 id="元注解"><a href="#元注解" class="headerlink" title="元注解"></a>元注解</h2><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>@Target</td>
+<td>表示该注解可以用于什么地方。可能的ElementType参数包括包括: CONSTRUTOR: 构造器的声明。FIELD:域声明(包括enum实例)。LOCAL_VARABLE: 局部变量声明。METHOD:方法声明。PACKAGE:包声明。PARAMETER:参数声明。TYPE:类，接口(注解类型)或enum声明</td>
+</tr>
+<tr>
+<td>@Retention</td>
+<td>表示需要在什么级别保存该注解信息。可选的RetentionPolicy参数包括:SOURCE: 注解将被编译器丢弃。CLASS:注解在class文件中用，但会被jvm丢弃。RUNTIME: vm运行将在运行期也保留注解，因此可以通过反射机制读取注解的信息。</td>
+</tr>
+<tr>
+<td>@Documented</td>
+<td>将此注解包含在Javadoc中</td>
+</tr>
+<tr>
+<td>@Inherited</td>
+<td>允许子类继承父类中的方法</td>
+</tr>
+<tr>
+<td>很多时候，我们主要是定义自己的注解，并编写自己的处理器来处理他们。</td>
+<td></td>
+</tr>
+</tbody></table>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>welcome to blog</title>
+    <url>/2019/11/26/hello-world/</url>
+    <content><![CDATA[<p><a href="https://github.com/fankeyayun" target="_blank" rel="noopener">fankeyayun</a> This is my very first post.</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Java</title>
+    <url>/Java/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>about</title>
+    <url>/about/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>tags</title>
+    <url>/tags/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>categories</title>
+    <url>/categories/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+</search>
