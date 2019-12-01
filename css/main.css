@@ -1818,7 +1818,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ffd9ff;
+  background: #d62a25;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2908,6 +2908,23 @@ hr {
   background-color: rgba(255,255,255,0);
   margin-top: 15px;
   padding: 0px;
+}
+.pagination .page-number.current {
+  border-radius: 100%;
+  background-color: rgba(100,100,100,0.75);
+}
+.pagination .prev,
+.pagination .next,
+.pagination .page-number {
+  margin-bottom: 10px;
+  border: none;
+  color: #010101;
+}
+.page-number:hover,
+.page-number:active {
+  color: #88ff0d;
+  border-radius: 100%;
+  background-color: rgba(0,0,0,0.75);
 }
 .local-search-popup #local-search-result {
   padding: 25px 40px;
