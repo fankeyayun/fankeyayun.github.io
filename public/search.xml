@@ -65,6 +65,11 @@
     <content><![CDATA[]]></content>
   </entry>
   <entry>
+    <title>categories</title>
+    <url>/categories/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>光影流年</title>
     <url>/photos/index.html</url>
     <content><![CDATA[<style type="text/css">
@@ -331,7 +336,7 @@ function loadXMLDoc(xmlUrl)
     return xmlDoc; 
 }
 
-xmlDoc=loadXMLDoc("https://photos-1300816893.cos.ap-chengdu.myqcloud.com");
+xmlDoc=loadXMLDoc("https://photos-1300816893.cos.ap-guangzhou.myqcloud.com");
 
 var urls = xmlDoc.getElementsByTagName('Key');
 var date = xmlDoc.getElementsByTagName('LastModified');
@@ -411,18 +416,13 @@ function moreClick(obj,cur,cont,title){
 </script>]]></content>
   </entry>
   <entry>
-    <title>Java</title>
-    <url>/Java/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>categories</title>
-    <url>/categories/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>tags</title>
     <url>/tags/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>Java</title>
+    <url>/Java/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
 </search>
