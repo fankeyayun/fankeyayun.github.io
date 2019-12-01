@@ -359,7 +359,7 @@ var kkk=-1;
 for (var t = 0; t < urls.length ; t++) {
     var bucket=urls[t].innerHTML;
     console.log("打印"+bucket)
-    var length=bucket.indexOf('.');
+    var length=bucket.indexOf('/');
     console.log("bucket.indexOf('/')>>>>"+length)
     console.log("bucket.length-1==>>>>"+bucket.length-1)
     //if(length===bucket.length-1){
@@ -370,7 +370,7 @@ for (var t = 0; t < urls.length ; t++) {
         tmp=1;
     }
     else {
-        content[kkk][tmp++]={'url':bucket.substring(length+1),'date':date[t].innerHTML.substring(0,10)};
+        content[kkk][tmp++]={'url':bucket.substring(length+1),'date':date[t].innerHTML.substring(1,10)};
     }
 }
 
