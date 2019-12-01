@@ -1818,7 +1818,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #1f1c0a;
+  background: #c24bff;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2927,6 +2927,18 @@ hr {
     margin: -73px 15px 50px 15px;
     padding: 86px 5px 36px 5px;
   }
+}
+.local-search-popup .search-icon,
+.local-search-popup .popup-btn-close {
+  color: rgba(21,161,216,0.949);
+}
+.local-search-popup .local-search-input-wrapper input {
+  padding-left: 10px;
+  height: 21px;
+  background-color: #fff;
+}
+.local-search-popup .popup-btn-close {
+  border-left: none;
 }
 #run_time {
   display: block;
