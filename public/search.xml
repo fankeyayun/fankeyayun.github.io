@@ -70,11 +70,6 @@
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>categories</title>
-    <url>/categories/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>光影流年</title>
     <url>/photos/index.html</url>
     <content><![CDATA[<style type="text/css">
@@ -429,6 +424,11 @@ function moreClick(obj,cur,cont,title){
   <entry>
     <title>tags</title>
     <url>/tags/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>categories</title>
+    <url>/categories/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
 </search>
