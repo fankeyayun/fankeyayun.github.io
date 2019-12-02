@@ -60,6 +60,11 @@
 ]]></content>
   </entry>
   <entry>
+    <title>about</title>
+    <url>/about/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>Java</title>
     <url>/Java/index.html</url>
     <content><![CDATA[]]></content>
@@ -70,8 +75,8 @@
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>about</title>
-    <url>/about/index.html</url>
+    <title>tags</title>
+    <url>/tags/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
@@ -425,10 +430,5 @@ function moreClick(obj,cur,cont,title){
     }
 }
 </script>]]></content>
-  </entry>
-  <entry>
-    <title>tags</title>
-    <url>/tags/index.html</url>
-    <content><![CDATA[]]></content>
   </entry>
 </search>
