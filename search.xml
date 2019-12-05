@@ -54,9 +54,12 @@
       </categories>
   </entry>
   <entry>
-    <title>welcome to blog</title>
+    <title>仓库地址</title>
     <url>/2019/11/26/hello-world/</url>
     <content><![CDATA[<p><a href="https://github.com/fankeyayun" target="_blank" rel="noopener">fankeyayun</a> This is my very first post.</p>
 ]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
   </entry>
 </search>

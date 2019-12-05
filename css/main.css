@@ -1164,7 +1164,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #21426c;
+  background: #f0d58c;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2601,6 +2601,24 @@ hr {
   font-size: 1em;
   color: #00bfff;
   border-bottom: none;
+}
+a,
+span.exturl {
+  overflow-wrap: break-word;
+  overflow-wrap: break-word;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  background-color: transparent;
+  color: #00bfff;
+  text-decoration: none;
+  outline: none;
+  border-bottom: 1px solid #949494;
+  cursor: pointer;
+}
+a:hover,
+span.exturl:hover {
+  color: rgba(230,66,66,0.89);
+  border-bottom-color: #222;
 }
 @-moz-keyframes heartAnimate {
   0%, 100% {
