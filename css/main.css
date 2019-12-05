@@ -1084,6 +1084,75 @@ pre .javascript .function {
 .use-motion .menu-item {
   opacity: 0;
 }
+.github-corner :hover .octo-arm {
+  animation: octocat-wave 560ms ease-in-out;
+}
+.github-corner svg {
+  border: 0;
+  color: #fff;
+  fill: #222;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1000;
+}
+@media (max-width: 991px) {
+  .github-corner .github-corner:hover .octo-arm {
+    animation: none;
+  }
+  .github-corner .github-corner .octo-arm {
+    animation: octocat-wave 560ms ease-in-out;
+  }
+}
+@media (max-width: 767px) {
+  .github-corner svg {
+    top: inherit;
+  }
+}
+@-moz-keyframes octocat-wave {
+  0%, 100% {
+    transform: rotate(0);
+  }
+  20%, 60% {
+    transform: rotate(-25deg);
+  }
+  40%, 80% {
+    transform: rotate(10deg);
+  }
+}
+@-webkit-keyframes octocat-wave {
+  0%, 100% {
+    transform: rotate(0);
+  }
+  20%, 60% {
+    transform: rotate(-25deg);
+  }
+  40%, 80% {
+    transform: rotate(10deg);
+  }
+}
+@-o-keyframes octocat-wave {
+  0%, 100% {
+    transform: rotate(0);
+  }
+  20%, 60% {
+    transform: rotate(-25deg);
+  }
+  40%, 80% {
+    transform: rotate(10deg);
+  }
+}
+@keyframes octocat-wave {
+  0%, 100% {
+    transform: rotate(0);
+  }
+  20%, 60% {
+    transform: rotate(-25deg);
+  }
+  40%, 80% {
+    transform: rotate(10deg);
+  }
+}
 .sidebar {
   background: #222;
   bottom: 0;
@@ -1164,7 +1233,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #f0d58c;
+  background: #e7ffcd;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2617,8 +2686,23 @@ span.exturl {
 }
 a:hover,
 span.exturl:hover {
-  color: rgba(230,66,66,0.89);
+  color: #ffb6c1;
   border-bottom-color: #222;
+}
+.post {
+  width: 100%;
+  margin-top: 1em;
+  margin-bottom: 3em;
+  padding: 1em;
+  -webkit-box-shadow: 0 0 0.5em rgba(202,203,203,0.5);
+}
+.sidebar {
+  box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.5);
+  background-color: rgba(0,0,0,0.75);
+}
+.posts-expand .post-title {
+  font-size: 20px;
+  font-weight: 700;
 }
 @-moz-keyframes heartAnimate {
   0%, 100% {
