@@ -1164,7 +1164,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #94ffd6;
+  background: #851b17;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2760,7 +2760,7 @@ ul.breadcrumb li + li:last-child {
 .site-title {
   font-size: 20px;
   font-weight: bold;
-  color: #1e90ff;
+  color: #f8f8ff;
   line-height: 30px;
   letter-spacing: 3px;
 }
@@ -2832,6 +2832,11 @@ span.exturl:hover {
 .sidebar {
   box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.5);
   background-color: rgba(0,0,0,0.75);
+}
+.brand {
+  background-color: rgba(255,255,255,0);
+  margin-top: 15px;
+  padding: 0px;
 }
 .posts-expand .post-title {
   font-size: 20px;
