@@ -12,7 +12,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-<link rel="stylesheet" href="https://fonts.loli.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Pacifico:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
 <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
@@ -49,6 +49,7 @@
 </script>
 
   <meta name="description" content="用springboot 2.2.1版本传文件到腾讯云里">
+<meta name="keywords" content="java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="springboot传文件到腾讯云存储">
 <meta property="og:url" content="http:&#x2F;&#x2F;www.chenasyt.com&#x2F;2019&#x2F;12&#x2F;02&#x2F;spring%20boot%E4%BC%A0%E6%96%87%E4%BB%B6%E5%88%B0%E8%85%BE%E8%AE%AF%E4%BA%91%E5%AD%98%E5%82%A8&#x2F;index.html">
@@ -57,7 +58,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20191206214532241.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NIRU5HWFVZVUFOMDk=,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20191206214833199.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NIRU5HWFVZVUFOMDk=,size_16,color_FFFFFF,t_70">
-<meta property="og:updated_time" content="2019-12-06T14:15:52.337Z">
+<meta property="og:updated_time" content="2019-12-08T12:40:10.199Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20191206214532241.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NIRU5HWFVZVUFOMDk=,size_16,color_FFFFFF,t_70">
 
@@ -141,6 +142,11 @@
         <li class="menu-item menu-item-home">
 
     <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
 
   </li>
         <li class="menu-item menu-item-archives">
@@ -229,17 +235,6 @@
 
               <time title="创建时间：2019-12-02 21:46:12" itemprop="dateCreated datePublished" datetime="2019-12-02T21:46:12+08:00">2019-12-02</time>
             </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-            </span>
 
           
             <span class="post-meta-item" title="本文字数">
@@ -290,6 +285,9 @@
         
       </div>
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
+          </div>
 
         
 
@@ -300,7 +298,10 @@
     <a href="/2019/11/28/%E6%B3%A8%E8%A7%A3/" rel="prev" title="单元测试注解的原理">
       <i class="fa fa-chevron-left"></i> 单元测试注解的原理
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2019/12/07/Java%E7%B1%BB%E4%B8%AD%E7%9A%84SerialVersionUID/" rel="next" title="Java类中的SerialVersionUID">
+      Java类中的SerialVersionUID <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -354,7 +355,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -362,6 +363,12 @@
             <a href="/categories/">
         <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
@@ -401,12 +408,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">7k</span>
+    <span title="站点总字数">23k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">6 分钟</span>
+    <span title="站点阅读时长">21 分钟</span>
 </div>
 
 <div id="days"></div>

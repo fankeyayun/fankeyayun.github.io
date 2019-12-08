@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/grade_a_32px_1116166_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://www.chenasyt.com').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="Java序列化。">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java类中的SerialVersionUID">
+<meta property="og:url" content="http:&#x2F;&#x2F;www.chenasyt.com&#x2F;2019&#x2F;12&#x2F;07&#x2F;Java%E7%B1%BB%E4%B8%AD%E7%9A%84SerialVersionUID&#x2F;index.html">
+<meta property="og:site_name" content="雅 木 茶">
+<meta property="og:description" content="Java序列化。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-12-08T13:13:42.018Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://www.chenasyt.com/2019/12/07/Java%E7%B1%BB%E4%B8%AD%E7%9A%84SerialVersionUID/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Java类中的SerialVersionUID | 雅 木 茶</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">雅 木 茶</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-photos">
+
+    <a href="/photos/" rel="section"><i class="fa fa-fw fa-image"></i>相册</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.chenasyt.com/2019/12/07/Java%E7%B1%BB%E4%B8%AD%E7%9A%84SerialVersionUID/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/ay.jpg">
+      <meta itemprop="name" content="Asi">
+      <meta itemprop="description" content="March forward courageously">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="雅 木 茶">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java类中的SerialVersionUID
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-12-07 21:10:12" itemprop="dateCreated datePublished" datetime="2019-12-07T21:10:12+08:00">2019-12-07</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>16k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>15 分钟</span>
+            </span>
+            <div class="post-description">Java序列化。 <!--more--></div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>   Java中的SerialVersionUID用于Java中的序列化机制，在Java的序列化中，尤其是在使用Eclipse这个IDE的时候，总是会warning说需要给类一个SerialVersionUID，<br>换到IDEA的时候，在创建新类的时候不会warning需要SerialVersionUID的。在看其他的代码中，很容易看到以下的代码：</p>
+<blockquote>
+<p>private static final long serialVersionUID = 1L;</p>
+</blockquote>
+<h2 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h2><ol>
+<li><p>1L的值作用？</p>
+</li>
+<li><p>不写对序列化有什么影响？</p>
+</li>
+<li><p>保持SerialVersionUID不写，序列化后，类增加或者减少字段，再反序列化会出现什么情况？</p>
+</li>
+<li><p>固定SerialVersionUID不变，序列化后，类增加或者减少字段，再反序列化会出现什么情况？</p>
+</li>
+</ol>
+<p>序列化<br>简单来说，Java的序列化机制是通过判断类的SerialVersionUID来验证版本一致性的。在进行反序列化的时候，JVM会将传来的字节流中的SerialVersionUID与相对应的实体类中的SerialVersionUID进行比较，如果一致，就认为在上一次序列化到现在的反序列这个过程中，实体类没有发生改变，可以进行反序列化，如果不一致就会报错。</p>
+<p>新建一个实体类Person.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.sang.test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.Serializable;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID=<span class="number">1L</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="comment">//private Integer age;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(<span class="keyword">int</span> id,String name)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.id=id;</span><br><span class="line">        <span class="keyword">this</span>.name=name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Person&#123;"</span> +</span><br><span class="line">                <span class="string">"id="</span> + id +</span><br><span class="line">                <span class="string">", name='"</span> + name + <span class="string">'\''</span> +</span><br><span class="line">                <span class="string">'&#125;'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>新建序列化类SerialTest.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.sang.test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.FileNotFoundException;</span><br><span class="line"><span class="keyword">import</span> java.io.FileOutputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.ObjectOutputStream;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SerialTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Person person = <span class="keyword">new</span> Person(<span class="number">1</span>, <span class="string">"DimpleTest"</span>);</span><br><span class="line">        System.out.println(<span class="string">"Person Serial: "</span> + person.toString());</span><br><span class="line">        <span class="keyword">try</span> (</span><br><span class="line">                FileOutputStream fileOutputStream = <span class="keyword">new</span> FileOutputStream(<span class="string">"person.txt"</span>);</span><br><span class="line">                ObjectOutputStream objectOutputStream = <span class="keyword">new</span> ObjectOutputStream(fileOutputStream);) &#123;</span><br><span class="line">            objectOutputStream.writeObject(person);</span><br><span class="line">            objectOutputStream.flush();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>新建反序列化测试类DeSerialTest.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.sang.test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DeSerialTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Person person = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> (</span><br><span class="line">                FileInputStream fileInputStream = <span class="keyword">new</span> FileInputStream(<span class="string">"Person.txt"</span>);</span><br><span class="line">                ObjectInputStream objectInputStream = <span class="keyword">new</span> ObjectInputStream(fileInputStream);) &#123;</span><br><span class="line">            person = (Person) objectInputStream.readObject();</span><br><span class="line">            System.out.println(<span class="string">"DeSerial Person: "</span> + person.toString());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException | ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>至此，需要用到的类已经编写完毕，接下来就是一系列的实验：</p>
+<p>实验<br>3. 保持SerialVersionUID不写，序列化后，类增加或者减少字段，再反序列化会出现什么情况？</p>
+<ol start="4">
+<li>固定SerialVersionUID不变，序列化后，类增加或者减少字段，再反序列化会出现什么情况？</li>
+</ol>
+<p>为了说明，我们将序列化的过程称为A过程，反序列化的过程称为B过程</p>
+<p>实验一：保持SerialVersionUID不写，序列化后，类增加或者减少字段，再反序列化会出现什么情况？</p>
+<p>实验步骤：</p>
+<ol>
+<li><p>运行SerialTest类main方法，在当前项目的根路径下生成person.txt，此为序列化。</p>
+</li>
+<li><p>在Person类中增加age字段。</p>
+</li>
+<li><p>运行DeSerialTest类main方法，检查是否异常。</p>
+</li>
+</ol>
+<p>结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/Library/Java/JavaVirtualMachines/jdk1<span class="number">.8</span><span class="number">.0_181</span>.jdk/Contents/Home/bin/java <span class="string">"-javaagent:/Applications/IntelliJ IDEA.app/Contents/lib/idea_rt.jar=59427:/Applications/IntelliJ IDEA.app/Contents/bin"</span> -Dfile.encoding=UTF-<span class="number">8</span> -classpath /Library/Java/JavaVirtualMachines/jdk1<span class="number">.8</span><span class="number">.0_181</span>.jdk/Contents/Home/jre/lib/charsets.jar:/Library/Java/JavaVirtualMachines/jdk1<span class="number">.8</span><span class="number">.0_181</span>.jdk/Contents/Home/jre/lib/deploy.jar:/Library/Java/JavaVirtualMachines/jdk1<span class="number">.8</span><span class="number">.0_181</span>.jdk/Contents/Home/jre/lib/ext/cldrdata.jar:/Library/Java/JavaVirtualMachines/jdk1<span class="number">.8</span><span class="number">.0_181</span>.jdk/Contents/Home/jre/lib/ext/dnsns.jar:/Library/Java/JavaVirtualMachines/jdk1<span class="number">.8</span><span class="number">.0_181</span>.jdk/Contents/Home/jre/lib/ext/jaccess.jar:/Library/Java/JavaVirtualMachines/jdk1<span class="number">.8</span><span class="number">.0_181</span>.jdk/Contents/Home/jre/lib/ext/jfxrt.jar:/Library/Java/JavaVirtualMachines/jdk1<span class="number">.8</span><span class="number">.0_181</span>.jdk/Contents/Home/jre/lib/ext/localedata.jar:/Library/Java/JavaVirtualMachines/jdk1<span class="number">.8</span><span class="number">.0_181</span>.jdk/Contents/Home/jre/lib/ext/nashorn.jar:/Library/Java/JavaVirtualMachines/jdk1<span class="number">.8</span><span class="number">.0_181</span>.jdk/Contents/Home/jre/lib/ext/sunec.jar:/Library/Java/JavaVirtualMachines/jdk1<span class="number">.8</span><span class="number">.0_181</span>.jdk/Contents/Home/jre/lib/ext/sunjce_provider.jar:/Library/Java/JavaVirtualMachines/jdk1<span class="number">.8</span><span class="number">.0_181</span>.jdk/Contents/Home/jre/lib/ext/sunpkcs11.jar:/Library/Java/JavaVirtualMachines/jdk1<span class="number">.8</span><span class="number">.0_181</span>.jdk/Contents/Home/jre/lib/ext/zipfs.jar:/Library/Java/JavaVirtualMachines/jdk1<span class="number">.8</span><span class="number">.0_181</span>.jdk/Contents/Home/jre/lib/javaws.jar:/Library/Java/JavaVirtualMachines/jdk1<span class="number">.8</span><span class="number">.0_181</span>.jdk/Contents/Home/jre/lib/jce.jar:/Library/Java/JavaVirtualMachines/jdk1<span class="number">.8</span><span class="number">.0_181</span>.jdk/Contents/Home/jre/lib/jfr.jar:/Library/Java/JavaVirtualMachines/jdk1<span class="number">.8</span><span class="number">.0_181</span>.jdk/Contents/Home/jre/lib/jfxswt.jar:/Library/Java/JavaVirtualMachines/jdk1<span class="number">.8</span><span class="number">.0_181</span>.jdk/Contents/Home/jre/lib/jsse.jar:/Library/Java/JavaVirtualMachines/jdk1<span class="number">.8</span><span class="number">.0_181</span>.jdk/Contents/Home/jre/lib/management-agent.jar:/Library/Java/JavaVirtualMachines/jdk1<span class="number">.8</span><span class="number">.0_181</span>.jdk/Contents/Home/jre/lib/plugin.jar:/Library/Java/JavaVirtualMachines/jdk1<span class="number">.8</span><span class="number">.0_181</span>.jdk/Contents/Home/jre/lib/resources.jar:/Library/Java/JavaVirtualMachines/jdk1<span class="number">.8</span><span class="number">.0_181</span>.jdk/Contents/Home/jre/lib/rt.jar:/Library/Java/JavaVirtualMachines/jdk1<span class="number">.8</span><span class="number">.0_181</span>.jdk/Contents/Home/lib/ant-javafx.jar:/Library/Java/JavaVirtualMachines/jdk1<span class="number">.8</span><span class="number">.0_181</span>.jdk/Contents/Home/lib/dt.jar:/Library/Java/JavaVirtualMachines/jdk1<span class="number">.8</span><span class="number">.0_181</span>.jdk/Contents/Home/lib/javafx-mx.jar:/Library/Java/JavaVirtualMachines/jdk1<span class="number">.8</span><span class="number">.0_181</span>.jdk/Contents/Home/lib/jconsole.jar:/Library/Java/JavaVirtualMachines/jdk1<span class="number">.8</span><span class="number">.0_181</span>.jdk/Contents/Home/lib/packager.jar:/Library/Java/JavaVirtualMachines/jdk1<span class="number">.8</span><span class="number">.0_181</span>.jdk/Contents/Home/lib/sa-jdi.jar:/Library/Java/JavaVirtualMachines/jdk1<span class="number">.8</span><span class="number">.0_181</span>.jdk/Contents/Home/lib/tools.jar:/Users/chenasiyatu/demo/vhr/hrserver/target/classes:/Users/chenasiyatu/.m2/repository/org/springframework/boot/spring-boot-starter-web/<span class="number">2.0</span><span class="number">.4</span>.RELEASE/spring-boot-starter-web-<span class="number">2.0</span><span class="number">.4</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/springframework/boot/spring-boot-starter/<span class="number">2.0</span><span class="number">.4</span>.RELEASE/spring-boot-starter-<span class="number">2.0</span><span class="number">.4</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/springframework/boot/spring-boot/<span class="number">2.0</span><span class="number">.4</span>.RELEASE/spring-boot-<span class="number">2.0</span><span class="number">.4</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/<span class="number">2.0</span><span class="number">.4</span>.RELEASE/spring-boot-autoconfigure-<span class="number">2.0</span><span class="number">.4</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/springframework/boot/spring-boot-starter-logging/<span class="number">2.0</span><span class="number">.4</span>.RELEASE/spring-boot-starter-logging-<span class="number">2.0</span><span class="number">.4</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/ch/qos/logback/logback-classic/<span class="number">1.2</span><span class="number">.3</span>/logback-classic-<span class="number">1.2</span><span class="number">.3</span>.jar:/Users/chenasiyatu/.m2/repository/ch/qos/logback/logback-core/<span class="number">1.2</span><span class="number">.3</span>/logback-core-<span class="number">1.2</span><span class="number">.3</span>.jar:/Users/chenasiyatu/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/<span class="number">2.10</span><span class="number">.0</span>/log4j-to-slf4j-<span class="number">2.10</span><span class="number">.0</span>.jar:/Users/chenasiyatu/.m2/repository/org/apache/logging/log4j/log4j-api/<span class="number">2.10</span><span class="number">.0</span>/log4j-api-<span class="number">2.10</span><span class="number">.0</span>.jar:/Users/chenasiyatu/.m2/repository/org/slf4j/jul-to-slf4j/<span class="number">1.7</span><span class="number">.25</span>/jul-to-slf4j-<span class="number">1.7</span><span class="number">.25</span>.jar:/Users/chenasiyatu/.m2/repository/javax/annotation/javax.annotation-api/<span class="number">1.3</span><span class="number">.2</span>/javax.annotation-api-<span class="number">1.3</span><span class="number">.2</span>.jar:/Users/chenasiyatu/.m2/repository/org/springframework/spring-core/<span class="number">5.0</span><span class="number">.8</span>.RELEASE/spring-core-<span class="number">5.0</span><span class="number">.8</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/springframework/spring-jcl/<span class="number">5.0</span><span class="number">.8</span>.RELEASE/spring-jcl-<span class="number">5.0</span><span class="number">.8</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/yaml/snakeyaml/<span class="number">1.19</span>/snakeyaml-<span class="number">1.19</span>.jar:/Users/chenasiyatu/.m2/repository/org/springframework/boot/spring-boot-starter-json/<span class="number">2.0</span><span class="number">.4</span>.RELEASE/spring-boot-starter-json-<span class="number">2.0</span><span class="number">.4</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/com/fasterxml/jackson/core/jackson-databind/<span class="number">2.9</span><span class="number">.6</span>/jackson-databind-<span class="number">2.9</span><span class="number">.6</span>.jar:/Users/chenasiyatu/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/<span class="number">2.9</span><span class="number">.0</span>/jackson-annotations-<span class="number">2.9</span><span class="number">.0</span>.jar:/Users/chenasiyatu/.m2/repository/com/fasterxml/jackson/core/jackson-core/<span class="number">2.9</span><span class="number">.6</span>/jackson-core-<span class="number">2.9</span><span class="number">.6</span>.jar:/Users/chenasiyatu/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/<span class="number">2.9</span><span class="number">.6</span>/jackson-datatype-jdk8-<span class="number">2.9</span><span class="number">.6</span>.jar:/Users/chenasiyatu/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/<span class="number">2.9</span><span class="number">.6</span>/jackson-datatype-jsr310-<span class="number">2.9</span><span class="number">.6</span>.jar:/Users/chenasiyatu/.m2/repository/com/fasterxml/jackson/<span class="keyword">module</span>/jackson-<span class="keyword">module</span>-parameter-names/<span class="number">2.9</span><span class="number">.6</span>/jackson-<span class="keyword">module</span>-parameter-names-<span class="number">2.9</span><span class="number">.6</span>.jar:/Users/chenasiyatu/.m2/repository/org/hibernate/validator/hibernate-validator/<span class="number">6.0</span><span class="number">.11</span>.Final/hibernate-validator-<span class="number">6.0</span><span class="number">.11</span>.Final.jar:/Users/chenasiyatu/.m2/repository/javax/validation/validation-api/<span class="number">2.0</span><span class="number">.1</span>.Final/validation-api-<span class="number">2.0</span><span class="number">.1</span>.Final.jar:/Users/chenasiyatu/.m2/repository/org/jboss/logging/jboss-logging/<span class="number">3.3</span><span class="number">.2</span>.Final/jboss-logging-<span class="number">3.3</span><span class="number">.2</span>.Final.jar:/Users/chenasiyatu/.m2/repository/com/fasterxml/classmate/<span class="number">1.3</span><span class="number">.4</span>/classmate-<span class="number">1.3</span><span class="number">.4</span>.jar:/Users/chenasiyatu/.m2/repository/org/openjfx/javafx.base/<span class="number">11.0</span><span class="number">.0</span>-SNAPSHOT/javafx.base-<span class="number">11.0</span><span class="number">.0</span>-<span class="number">20180702.224858</span>-<span class="number">3</span>.jar:/Users/chenasiyatu/.m2/repository/org/openjfx/javafx.base/<span class="number">11.0</span><span class="number">.0</span>-SNAPSHOT/javafx.base-<span class="number">11.0</span><span class="number">.0</span>-<span class="number">20180702.223831</span>-<span class="number">2</span>-linux.jar:/Users/chenasiyatu/.m2/repository/org/openjfx/javafx.base/<span class="number">11.0</span><span class="number">.0</span>-SNAPSHOT/javafx.base-<span class="number">11.0</span><span class="number">.0</span>-<span class="number">20180702.224858</span>-<span class="number">3</span>-mac.jar:/Users/chenasiyatu/.m2/repository/org/openjfx/javafx.base/<span class="number">11.0</span><span class="number">.0</span>-SNAPSHOT/javafx.base-<span class="number">11.0</span><span class="number">.0</span>-<span class="number">20180629.175051</span>-<span class="number">1</span>-win.jar:/Users/chenasiyatu/.m2/repository/org/springframework/spring-web/<span class="number">5.0</span><span class="number">.8</span>.RELEASE/spring-web-<span class="number">5.0</span><span class="number">.8</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/springframework/spring-beans/<span class="number">5.0</span><span class="number">.8</span>.RELEASE/spring-beans-<span class="number">5.0</span><span class="number">.8</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/springframework/spring-webmvc/<span class="number">5.0</span><span class="number">.8</span>.RELEASE/spring-webmvc-<span class="number">5.0</span><span class="number">.8</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/springframework/spring-expression/<span class="number">5.0</span><span class="number">.8</span>.RELEASE/spring-expression-<span class="number">5.0</span><span class="number">.8</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/springframework/boot/spring-boot-starter-undertow/<span class="number">2.0</span><span class="number">.4</span>.RELEASE/spring-boot-starter-undertow-<span class="number">2.0</span><span class="number">.4</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/io/undertow/undertow-core/<span class="number">1.4</span><span class="number">.25</span>.Final/undertow-core-<span class="number">1.4</span><span class="number">.25</span>.Final.jar:/Users/chenasiyatu/.m2/repository/org/jboss/xnio/xnio-api/<span class="number">3.3</span><span class="number">.8</span>.Final/xnio-api-<span class="number">3.3</span><span class="number">.8</span>.Final.jar:/Users/chenasiyatu/.m2/repository/org/jboss/xnio/xnio-nio/<span class="number">3.3</span><span class="number">.8</span>.Final/xnio-nio-<span class="number">3.3</span><span class="number">.8</span>.Final.jar:/Users/chenasiyatu/.m2/repository/io/undertow/undertow-servlet/<span class="number">1.4</span><span class="number">.25</span>.Final/undertow-servlet-<span class="number">1.4</span><span class="number">.25</span>.Final.jar:/Users/chenasiyatu/.m2/repository/org/jboss/spec/javax/annotation/jboss-annotations-api_1<span class="number">.2</span>_spec/<span class="number">1.0</span><span class="number">.2</span>.Final/jboss-annotations-api_1<span class="number">.2</span>_spec-<span class="number">1.0</span><span class="number">.2</span>.Final.jar:/Users/chenasiyatu/.m2/repository/io/undertow/undertow-websockets-jsr/<span class="number">1.4</span><span class="number">.25</span>.Final/undertow-websockets-jsr-<span class="number">1.4</span><span class="number">.25</span>.Final.jar:/Users/chenasiyatu/.m2/repository/org/jboss/spec/javax/websocket/jboss-websocket-api_1<span class="number">.1</span>_spec/<span class="number">1.1</span><span class="number">.3</span>.Final/jboss-websocket-api_1<span class="number">.1</span>_spec-<span class="number">1.1</span><span class="number">.3</span>.Final.jar:/Users/chenasiyatu/.m2/repository/javax/servlet/javax.servlet-api/<span class="number">3.1</span><span class="number">.0</span>/javax.servlet-api-<span class="number">3.1</span><span class="number">.0</span>.jar:/Users/chenasiyatu/.m2/repository/org/glassfish/javax.el/<span class="number">3.0</span><span class="number">.0</span>/javax.el-<span class="number">3.0</span><span class="number">.0</span>.jar:/Users/chenasiyatu/.m2/repository/org/mybatis/spring/boot/mybatis-spring-boot-starter/<span class="number">1.3</span><span class="number">.2</span>/mybatis-spring-boot-starter-<span class="number">1.3</span><span class="number">.2</span>.jar:/Users/chenasiyatu/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/<span class="number">2.0</span><span class="number">.4</span>.RELEASE/spring-boot-starter-jdbc-<span class="number">2.0</span><span class="number">.4</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/com/zaxxer/HikariCP/<span class="number">2.7</span><span class="number">.9</span>/HikariCP-<span class="number">2.7</span><span class="number">.9</span>.jar:/Users/chenasiyatu/.m2/repository/org/springframework/spring-jdbc/<span class="number">5.0</span><span class="number">.8</span>.RELEASE/spring-jdbc-<span class="number">5.0</span><span class="number">.8</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/mybatis/spring/boot/mybatis-spring-boot-autoconfigure/<span class="number">1.3</span><span class="number">.2</span>/mybatis-spring-boot-autoconfigure-<span class="number">1.3</span><span class="number">.2</span>.jar:/Users/chenasiyatu/.m2/repository/org/mybatis/mybatis/<span class="number">3.4</span><span class="number">.6</span>/mybatis-<span class="number">3.4</span><span class="number">.6</span>.jar:/Users/chenasiyatu/.m2/repository/org/mybatis/mybatis-spring/<span class="number">1.3</span><span class="number">.2</span>/mybatis-spring-<span class="number">1.3</span><span class="number">.2</span>.jar:/Users/chenasiyatu/.m2/repository/org/springframework/boot/spring-boot-starter-security/<span class="number">2.0</span><span class="number">.4</span>.RELEASE/spring-boot-starter-security-<span class="number">2.0</span><span class="number">.4</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/springframework/spring-aop/<span class="number">5.0</span><span class="number">.8</span>.RELEASE/spring-aop-<span class="number">5.0</span><span class="number">.8</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/springframework/security/spring-security-config/<span class="number">5.0</span><span class="number">.7</span>.RELEASE/spring-security-config-<span class="number">5.0</span><span class="number">.7</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/springframework/security/spring-security-core/<span class="number">5.0</span><span class="number">.7</span>.RELEASE/spring-security-core-<span class="number">5.0</span><span class="number">.7</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/springframework/security/spring-security-web/<span class="number">5.0</span><span class="number">.7</span>.RELEASE/spring-security-web-<span class="number">5.0</span><span class="number">.7</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/springframework/boot/spring-boot-starter-data-redis/<span class="number">2.0</span><span class="number">.4</span>.RELEASE/spring-boot-starter-data-redis-<span class="number">2.0</span><span class="number">.4</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/springframework/data/spring-data-redis/<span class="number">2.0</span><span class="number">.9</span>.RELEASE/spring-data-redis-<span class="number">2.0</span><span class="number">.9</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/springframework/data/spring-data-keyvalue/<span class="number">2.0</span><span class="number">.9</span>.RELEASE/spring-data-keyvalue-<span class="number">2.0</span><span class="number">.9</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/springframework/data/spring-data-commons/<span class="number">2.0</span><span class="number">.9</span>.RELEASE/spring-data-commons-<span class="number">2.0</span><span class="number">.9</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/springframework/spring-tx/<span class="number">5.0</span><span class="number">.8</span>.RELEASE/spring-tx-<span class="number">5.0</span><span class="number">.8</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/springframework/spring-oxm/<span class="number">5.0</span><span class="number">.8</span>.RELEASE/spring-oxm-<span class="number">5.0</span><span class="number">.8</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/slf4j/slf4j-api/<span class="number">1.7</span><span class="number">.25</span>/slf4j-api-<span class="number">1.7</span><span class="number">.25</span>.jar:/Users/chenasiyatu/.m2/repository/redis/clients/jedis/<span class="number">2.9</span><span class="number">.0</span>/jedis-<span class="number">2.9</span><span class="number">.0</span>.jar:/Users/chenasiyatu/.m2/repository/org/apache/commons/commons-pool2/<span class="number">2.5</span><span class="number">.0</span>/commons-pool2-<span class="number">2.5</span><span class="number">.0</span>.jar:/Users/chenasiyatu/.m2/repository/com/alibaba/druid/<span class="number">1.1</span><span class="number">.10</span>/druid-<span class="number">1.1</span><span class="number">.10</span>.jar:/Users/chenasiyatu/.m2/repository/mysql/mysql-connector-java/<span class="number">5.1</span><span class="number">.46</span>/mysql-connector-java-<span class="number">5.1</span><span class="number">.46</span>.jar:/Users/chenasiyatu/.m2/repository/org/apache/poi/poi/<span class="number">3.17</span>/poi-<span class="number">3.17</span>.jar:/Users/chenasiyatu/.m2/repository/commons-codec/commons-codec/<span class="number">1.11</span>/commons-codec-<span class="number">1.11</span>.jar:/Users/chenasiyatu/.m2/repository/org/apache/commons/commons-collections4/<span class="number">4.1</span>/commons-collections4-<span class="number">4.1</span>.jar:/Users/chenasiyatu/.m2/repository/org/springframework/boot/spring-boot-starter-mail/<span class="number">2.0</span><span class="number">.4</span>.RELEASE/spring-boot-starter-mail-<span class="number">2.0</span><span class="number">.4</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/springframework/spring-context/<span class="number">5.0</span><span class="number">.8</span>.RELEASE/spring-context-<span class="number">5.0</span><span class="number">.8</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/springframework/spring-context-support/<span class="number">5.0</span><span class="number">.8</span>.RELEASE/spring-context-support-<span class="number">5.0</span><span class="number">.8</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/com/sun/mail/javax.mail/<span class="number">1.6</span><span class="number">.1</span>/javax.mail-<span class="number">1.6</span><span class="number">.1</span>.jar:/Users/chenasiyatu/.m2/repository/javax/activation/activation/<span class="number">1.1</span>/activation-<span class="number">1.1</span>.jar:/Users/chenasiyatu/.m2/repository/org/springframework/boot/spring-boot-starter-thymeleaf/<span class="number">2.0</span><span class="number">.4</span>.RELEASE/spring-boot-starter-thymeleaf-<span class="number">2.0</span><span class="number">.4</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/thymeleaf/thymeleaf-spring5/<span class="number">3.0</span><span class="number">.9</span>.RELEASE/thymeleaf-spring5-<span class="number">3.0</span><span class="number">.9</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/thymeleaf/thymeleaf/<span class="number">3.0</span><span class="number">.9</span>.RELEASE/thymeleaf-<span class="number">3.0</span><span class="number">.9</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/attoparser/attoparser/<span class="number">2.0</span><span class="number">.4</span>.RELEASE/attoparser-<span class="number">2.0</span><span class="number">.4</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/unbescape/unbescape/<span class="number">1.1</span><span class="number">.5</span>.RELEASE/unbescape-<span class="number">1.1</span><span class="number">.5</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/thymeleaf/extras/thymeleaf-extras-java8time/<span class="number">3.0</span><span class="number">.1</span>.RELEASE/thymeleaf-extras-java8time-<span class="number">3.0</span><span class="number">.1</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/springframework/boot/spring-boot-starter-websocket/<span class="number">2.0</span><span class="number">.4</span>.RELEASE/spring-boot-starter-websocket-<span class="number">2.0</span><span class="number">.4</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/springframework/spring-messaging/<span class="number">5.0</span><span class="number">.8</span>.RELEASE/spring-messaging-<span class="number">5.0</span><span class="number">.8</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/springframework/spring-websocket/<span class="number">5.0</span><span class="number">.8</span>.RELEASE/spring-websocket-<span class="number">5.0</span><span class="number">.8</span>.RELEASE.jar:/Users/chenasiyatu/.m2/repository/org/springframework/boot/spring-boot-starter-cache/<span class="number">2.0</span><span class="number">.4</span>.RELEASE/spring-boot-starter-cache-<span class="number">2.0</span><span class="number">.4</span>.RELEASE.jar org.sang.test.DeSerialTest</span><br><span class="line">java.io.InvalidClassException: org.sang.test.Person; local class incompatible: stream classdesc serialVersionUID = 123456789, local class serialVersionUID = -7561000419652998964</span><br><span class="line">	at java.io.ObjectStreamClass.initNonProxy(ObjectStreamClass.java:<span class="number">699</span>)</span><br><span class="line">	at java.io.ObjectInputStream.readNonProxyDesc(ObjectInputStream.java:<span class="number">1885</span>)</span><br><span class="line">	at java.io.ObjectInputStream.readClassDesc(ObjectInputStream.java:<span class="number">1751</span>)</span><br><span class="line">	at java.io.ObjectInputStream.readOrdinaryObject(ObjectInputStream.java:<span class="number">2042</span>)</span><br><span class="line">	at java.io.ObjectInputStream.readObject0(ObjectInputStream.java:<span class="number">1573</span>)</span><br><span class="line">	at java.io.ObjectInputStream.readObject(ObjectInputStream.java:<span class="number">431</span>)</span><br><span class="line">	at org.sang.test.DeSerialTest.main(DeSerialTest.java:<span class="number">12</span>)</span><br></pre></td></tr></table></figure>
+
+<p>Process finished with exit code 0<br>报错提示这两个类不匹配，并给出了stream中的SerialVersionUID为-5720418216692542201，本地的Person中的SerialVersionUID为6618704986964704271。</p>
+<p>当实现java.io.Serializable接口的类没有显式地定义一个serialVersionUID变量时候，Java序列化机制会根据编译的Class自动生成一个serialVersionUID作序列化版本比较用，这种情况下，如果Class文件(类名，方法名等)没有发生变化(增加空格，换行，增加注释等等)，就算再编译多次，serialVersionUID也不会变化的。</p>
+<p>实验二：固定SerialVersionUID不变，序列化后，类增加字段，再反序列化会出现什么情况？</p>
+<ol>
+<li><p>在Person类中增加private static final long serialVersionUID = 123456789L;</p>
+</li>
+<li><p>运行SerialTest类main方法，在当前项目的根路径下生成person.txt，此为序列化。</p>
+</li>
+<li><p>Person类中增加Intege age字段。</p>
+</li>
+<li><p>运行DeSerialTest类main方法，检查是否异常。</p>
+</li>
+</ol>
+<h2 id="结果："><a href="#结果：" class="headerlink" title="结果："></a>结果：</h2><p>无异常，age字段被A端忽略，赋值为null，如果age为基本类型int，那么会被赋值为0.</p>
+<p>实验三：固定SerialVersionUID不变，序列化后，类减少字段，再反序列化会出现什么情况？</p>
+<ol>
+<li><p>在Person类中增加private static final long serialVersionUID = 1L;</p>
+</li>
+<li><p>运行SerialTest类main方法，在当前项目的根路径下生成person.txt，此为序列化。</p>
+</li>
+<li><p>Person类中删除String name字段。</p>
+</li>
+<li><p>运行DeSerialTest类main方法，检查是否异常。</p>
+</li>
+</ol>
+<p>结果：</p>
+<p>无异常，name字段被B端忽略。</p>
+<ol>
+<li>1如果不写SerialVersionUID，那么JVM会自动生成SerialVersionUID，并且保证同一份文件只会生成同一个SerialVersionUID，如果对类作出修改会生成不同的SerialVersionUID。</li>
+</ol>
+<ol start="2">
+<li><p>SerialVersionUID的作用是区分版本，即不同版本的SerialVersionUID应该是不一样的。</p>
+</li>
+<li><p>如果我们不希望通过编译来强制划分软件版本，即实现序列化接口的实体能够兼容先前版本，就需要显式地定义一个名为serialVersionUID，类型为long的变量，不修改这个变量值的序列化实体都可以相互进行串行化和反串行化。</p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+      <div>
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------　　　　本文结束　<i class="fa fa-heart"></i>　感谢您的阅读　　　　-------------</div>
+    
+</div>
+        
+      </div>
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/12/02/spring%20boot%E4%BC%A0%E6%96%87%E4%BB%B6%E5%88%B0%E8%85%BE%E8%AE%AF%E4%BA%91%E5%AD%98%E5%82%A8/" rel="prev" title="springboot传文件到腾讯云存储">
+      <i class="fa fa-chevron-left"></i> springboot传文件到腾讯云存储
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题："><span class="nav-number">1.</span> <span class="nav-text">问题：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结果："><span class="nav-number">2.</span> <span class="nav-text">结果：</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Asi"
+      src="/images/ay.jpg">
+  <p class="site-author-name" itemprop="name">Asi</p>
+  <div class="site-description" itemprop="description">March forward courageously</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/fankeyayun" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;fankeyayun" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/CHENGXUYUAN09" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;CHENGXUYUAN09" rel="noopener" target="_blank"><i class="fa fa-fw fa-th"></i>CSDN</a>
+      </span>
+  </div>
+
+
+
+      </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="heart">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Asi</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">23k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">21 分钟</span>
+</div>
+
+<div id="days"></div>
+<script>
+function show_date_time(){
+    window.setTimeout("show_date_time()", 1000);
+    BirthDay=new Date("11/11/2019 15:13:14");
+    today=new Date();
+    timeold=(today.getTime()-BirthDay.getTime());
+    sectimeold=timeold/1000
+    secondsold=Math.floor(sectimeold);
+    msPerDay=24*60*60*1000
+    e_daysold=timeold/msPerDay
+    daysold=Math.floor(e_daysold);
+    e_hrsold=(e_daysold-daysold)*24;
+    hrsold=setzero(Math.floor(e_hrsold));
+    e_minsold=(e_hrsold-hrsold)*60;
+    minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+    seconds=setzero(Math.floor((e_minsold-minsold)*60));
+    document.getElementById('days').innerHTML="已运行 "+daysold+" 天 "+hrsold+" 小时 "+minsold+" 分 "+seconds+" 秒";
+}
+function setzero(i) {
+    if (i<10) {
+        i="0" + i
+    };
+    return i;
+}
+show_date_time();
+</script>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+  <!--鼠标点击红心-->
+   <script type="text/javascript" src="/js/src/clicklove.js"></script>
+
+</body>
+</html>
+
