@@ -12,7 +12,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Pacifico:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
 <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
@@ -48,15 +48,13 @@
   };
 </script>
 
-  <meta name="description" content="Java序列化。">
-<meta name="keywords" content="java">
+  <meta name="keywords" content="java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java类中的SerialVersionUID">
 <meta property="og:url" content="http:&#x2F;&#x2F;www.chenasyt.com&#x2F;2019&#x2F;12&#x2F;07&#x2F;Java%E7%B1%BB%E4%B8%AD%E7%9A%84SerialVersionUID&#x2F;index.html">
 <meta property="og:site_name" content="雅 木 茶">
-<meta property="og:description" content="Java序列化。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-12-08T13:13:42.018Z">
+<meta property="og:updated_time" content="2019-12-09T14:28:40.319Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://www.chenasyt.com/2019/12/07/Java%E7%B1%BB%E4%B8%AD%E7%9A%84SerialVersionUID/">
@@ -246,7 +244,7 @@
               </span>
               <span>15 分钟</span>
             </span>
-            <div class="post-description">Java序列化。 <!--more--></div>
+            <div class="post-description"><!--more--></div>
 
         </div>
       </header>
@@ -257,7 +255,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>   Java中的SerialVersionUID用于Java中的序列化机制，在Java的序列化中，尤其是在使用Eclipse这个IDE的时候，总是会warning说需要给类一个SerialVersionUID，<br>换到IDEA的时候，在创建新类的时候不会warning需要SerialVersionUID的。在看其他的代码中，很容易看到以下的代码：</p>
+        <!-- 标签别名 -->
+<div class="note default">
+            <p><br /></p><blockquote class="blockquote-center"><p>    Java中的SerialVersionUID用于Java中的序列化机制，在Java的序列化中，尤其是在使用Eclipse这个IDE的时候，总是会warning说需要给类一个SerialVersionUID，换到IDEA的时候，在创建新类的时候不会warning需要SerialVersionUID的。在看其他的代码中，很容易看到以下的代码。</p><br /></blockquote>
+          </div>
+
+
 <blockquote>
 <p>private static final long serialVersionUID = 1L;</p>
 </blockquote>
@@ -283,10 +286,7 @@
 
 
 <p>至此，需要用到的类已经编写完毕，接下来就是一系列的实验：</p>
-<p>实验<br>3. 保持SerialVersionUID不写，序列化后，类增加或者减少字段，再反序列化会出现什么情况？</p>
-<ol start="4">
-<li>固定SerialVersionUID不变，序列化后，类增加或者减少字段，再反序列化会出现什么情况？</li>
-</ol>
+<p>实验<br>3. 保持SerialVersionUID不写，序列化后，类增加或者减少字段，再反序列化会出现什么情况？<br>4. 固定SerialVersionUID不变，序列化后，类增加或者减少字段，再反序列化会出现什么情况？</p>
 <p>为了说明，我们将序列化的过程称为A过程，反序列化的过程称为B过程</p>
 <p>实验一：保持SerialVersionUID不写，序列化后，类增加或者减少字段，再反序列化会出现什么情况？</p>
 <p>实验步骤：</p>
@@ -329,9 +329,8 @@
 <p>结果：</p>
 <p>无异常，name字段被B端忽略。</p>
 <ol>
-<li>1如果不写SerialVersionUID，那么JVM会自动生成SerialVersionUID，并且保证同一份文件只会生成同一个SerialVersionUID，如果对类作出修改会生成不同的SerialVersionUID。</li>
-</ol>
-<ol start="2">
+<li><p>如果不写SerialVersionUID，那么JVM会自动生成SerialVersionUID，并且保证同一份文件只会生成同一个SerialVersionUID，如果对类作出修改会生成不同的SerialVersionUID。</p>
+</li>
 <li><p>SerialVersionUID的作用是区分版本，即不同版本的SerialVersionUID应该是不一样的。</p>
 </li>
 <li><p>如果我们不希望通过编译来强制划分软件版本，即实现序列化接口的实体能够兼容先前版本，就需要显式地定义一个名为serialVersionUID，类型为long的变量，不修改这个变量值的序列化实体都可以相互进行串行化和反串行化。</p>
