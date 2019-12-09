@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>maven项目中引入第三方包</title>
+    <url>/2019/12/09/maven%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%BC%95%E5%85%A5%E7%AC%AC%E4%B8%89%E6%96%B9jave-1.0.2jar%20%E5%8C%85/</url>
+    <content><![CDATA[<p>   前期项目中因为需求要求引入了一些第三方的工具包括jar包，当把程序提到代码管理里后其他同事档下来运行报错 内容为部分jar包找不到！！脑子懵了。开始查找问题所在发现我把第三方的jar添加到了lib下面了 同时没对pom中引入导致出现这样的问题。<br>    在网上查了一番很多关于第三方的jar包引入的方式方法。我参照了手动添加的方式去完成。<br>    第一步   将需要的jar下载本地上<br>    <img src="https://img-blog.csdnimg.cn/20190610145007308.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMDM0NDg0,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>    第二步   终端进入到maven的bin下面</p>
+<p>  进行mvn命令将第三方的jar下到本地仓里</p>
+<p><img src="https://img-blog.csdnimg.cn/20190610145138682.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMDM0NDg0,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>出现以上信息说明成功！！！</p>
+<p>第三步  在pom中添加对应的信息</p>
+<p><img src="https://img-blog.csdnimg.cn/20190610145241993.jpg" alt="在这里插入图片描述"><br>这就是引入包的方法！</p>
+]]></content>
+      <tags>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java类中的SerialVersionUID</title>
     <url>/2019/12/07/Java%E7%B1%BB%E4%B8%AD%E7%9A%84SerialVersionUID/</url>
     <content><![CDATA[<p>   Java中的SerialVersionUID用于Java中的序列化机制，在Java的序列化中，尤其是在使用Eclipse这个IDE的时候，总是会warning说需要给类一个SerialVersionUID，<br>换到IDEA的时候，在创建新类的时候不会warning需要SerialVersionUID的。在看其他的代码中，很容易看到以下的代码：</p>
