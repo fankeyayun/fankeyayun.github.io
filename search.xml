@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>添加评论功能</title>
+    <url>/2019/12/13/hexo%20next7.6%20%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA/</url>
+    <content><![CDATA[<ol>
+<li><p>首先要到<a href="https://leancloud.cn/dashboard/login.html#/signup" target="_blank" rel="noopener">LeanCloud</a>注册要它的appid和appkey。<br><img src="https://img-blog.csdnimg.cn/20191213203829327.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NIRU5HWFVZVUFOMDk=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</li>
+<li><p>其次点击安全中心设置安全域名(你的域名)<br><img src="https://img-blog.csdnimg.cn/20191213204105711.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NIRU5HWFVZVUFOMDk=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</li>
+<li><p>在hexo 主题配置件_config.yml  找到<valine> 并开启评论 true,同时配上刚从LeanCoud拿到的appid和appkey。<br><img src="https://img-blog.csdnimg.cn/20191213204434342.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NIRU5HWFVZVUFOMDk=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><a href="https://valine.js.org/configuration.html" target="_blank" rel="noopener">详情配置文档</a></p>
+</li>
+<li><p>最后 hexo clean hexo server访问本地就能够看到初始的评论<br><img src="https://img-blog.csdnimg.cn/20191213204638510.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NIRU5HWFVZVUFOMDk=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>maven项目中引入第三方包</title>
     <url>/2019/12/09/maven%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%BC%95%E5%85%A5%E7%AC%AC%E4%B8%89%E6%96%B9jave-1.0.2jar%20%E5%8C%85/</url>
     <content><![CDATA[<p>   前期项目中因为需求要求引入了一些第三方的工具包括jar包，当把程序提到代码管理里后其他同事档下来运行报错 内容为部分jar包找不到！！脑子懵了。开始查找问题所在发现我把第三方的jar添加到了lib下面了 同时没对pom中引入导致出现这样的问题。<br>    在网上查了一番很多关于第三方的jar包引入的方式方法。我参照了手动添加的方式去完成。<br>    第一步   将需要的jar下载本地上<br>    <img src="https://img-blog.csdnimg.cn/20190610145007308.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMDM0NDg0,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>    第二步   终端进入到maven的bin下面</p>
