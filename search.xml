@@ -37,7 +37,10 @@
   <entry>
     <title>Java类中的SerialVersionUID</title>
     <url>/2019/12/07/Java%E7%B1%BB%E4%B8%AD%E7%9A%84SerialVersionUID/</url>
-    <content><![CDATA[<!-- 标签别名 -->
+    <content><![CDATA[<img src="http://q26gxmwz0.bkt.clouddn.com/8.jpg" width=100% />
+<a id="more"></a>
+
+<!-- 标签别名 -->
 <div class="note default">
             <p><br /></p><blockquote class="blockquote-center"><p>    Java中的SerialVersionUID用于Java中的序列化机制，在Java的序列化中，尤其是在使用Eclipse这个IDE的时候，总是会warning说需要给类一个SerialVersionUID，换到IDEA的时候，在创建新类的时候不会warning需要SerialVersionUID的。在看其他的代码中，很容易看到以下的代码。</p><br /></blockquote>
           </div>
