@@ -1,6 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>&lt;springboot2.x+shiro+redis+swagger2+mybatis&gt;登录模块</title>
+    <url>/2019/12/14/springboot2.x+shiro+swagger2%20/</url>
+    <content><![CDATA[<h2 id="用户登录"><a href="#用户登录" class="headerlink" title="用户登录"></a>用户登录</h2><p>用户登录后客户端传过来username和password两个参数，后台通过LoginReqVO对象接收这两个参数，服务层将拿到的参数username再从库里查询账号是否存在？</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">SysUser sysUser=sysUserMapper.getUserInfoByName(vo.getUsername());</span><br></pre></td></tr></table></figure>
+<ol>
+<li>不存在的话给客户端返回 “该用户不存在,请先注册”，</li>
+<li>判断查到的用户status(账户状而态:1 正常 2锁定)被锁定的话 给客户端返回”该用户已被锁定，请联系运营人员”<br>当账户状态为1时，初始化一个集合对象来封装 权限，角色，用户名称<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Map&lt;String,Object&gt; claims=<span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"><span class="comment">//权限</span></span><br><span class="line">claims.put(Constant.JWT_PERMISSIONS_KEY,getPermissionsByUserId(sysUser.getId()));</span><br><span class="line"><span class="comment">//角色</span></span><br><span class="line">claims.put(Constant.JWT_ROLES_KEY,getRolesByUserId(sysUser.getId()));</span><br><span class="line"><span class="comment">//用户名称</span></span><br><span class="line">claims.put(Constant.JWT_USER_NAME,sysUser.getUsername());</span><br></pre></td></tr></table></figure></li>
+<li>生成一个新的token<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String access_token= JwtTokenUtil.getAccessToken(sysUser.getId(),claims);</span><br></pre></td></tr></table></figure></li>
+<li>生产token<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String refresh_token=JwtTokenUtil.getRefreshToken(sysUser.getId(),claims);</span><br></pre></td></tr></table></figure></li>
+<li>签发token 在生成token或者是生产token的时候我用jwt来校验的，issuer是签发人，subject代表这个jwt的主体，一般是用户id，claims存储的是用户的角色/角色信息<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">generateToken</span><span class="params">(String issuer, String subject,Map&lt;String, Object&gt; claims, <span class="keyword">long</span> ttlMillis,String secret)</span> </span>&#123;</span><br><span class="line">        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;</span><br><span class="line">        <span class="keyword">long</span> nowMillis = System.currentTimeMillis();<span class="comment">//随机秒数</span></span><br><span class="line">        Date now = <span class="keyword">new</span> Date(nowMillis);<span class="comment">//转换为data时间戳</span></span><br><span class="line">        <span class="keyword">byte</span>[] signingKey = DatatypeConverter.parseBase64Binary(secret);</span><br><span class="line">        JwtBuilder builder = Jwts.builder();</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">null</span>!=claims)&#123;</span><br><span class="line">            builder.setClaims(claims);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!StringUtils.isEmpty(subject)) &#123;</span><br><span class="line">            builder.setSubject(subject);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!StringUtils.isEmpty(issuer)) &#123;</span><br><span class="line">            builder.setIssuer(issuer);</span><br><span class="line">        &#125;</span><br><span class="line">        builder.setIssuedAt(now);</span><br><span class="line">        <span class="keyword">if</span> (ttlMillis &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">long</span> expMillis = nowMillis + ttlMillis;</span><br><span class="line">            Date exp = <span class="keyword">new</span> Date(expMillis);</span><br><span class="line">            builder.setExpiration(exp);</span><br><span class="line">        &#125;</span><br><span class="line">        builder.signWith(signatureAlgorithm, signingKey);</span><br><span class="line">        <span class="keyword">return</span> builder.compact();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></li>
+<li>初始化一个前后交互对象 将新生成的token，生产token以及个人信息封装到对象里返回给客户端<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">LoginRespVO respVO=<span class="keyword">new</span> LoginRespVO();</span><br></pre></td></tr></table></figure>
+<h2 id="用户注册"><a href="#用户注册" class="headerlink" title="用户注册"></a>用户注册</h2>当新用户注册时用户名(必填项)，密码(必填项)，所属部门(必填项),电话，昵称，邮箱，性别等客户端传过来服务端RegisterReqVO对象来接收参，尤其是对密码进行加密处理后所有信息存到数据库。</li>
+<li>对明文加密<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">encode</span><span class="params">(String rawPass, String salt)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> PasswordEncoder(salt).encode(rawPass);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>新用户注册时有可能会出现已注册的问题，需要在代码这块进行处理。当拿到的数据库里查询结果不等于1的话 操作失败<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> i = sysUserMapper.insertSelective(sysUser);</span><br><span class="line"><span class="keyword">if</span> (i!=<span class="number">1</span>)&#123;</span><br><span class="line">   <span class="keyword">throw</span> <span class="keyword">new</span> BusinessException(BaseResponseCode.OPERATION_ERRO);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="用户添加"><a href="#用户添加" class="headerlink" title="用户添加"></a>用户添加</h2>用户添加主要是用户名，密码，所属部门都是必填项，其余(性别，邮箱，电话，所拥有的角色可填不可填，看需求)。这里是通过新增对象UserAddReqVO来接收这些参数，成功的话 给客户端返回<br><code>{code:0,msg:&quot;操作成功&quot;}</code><h2 id="分页列表"><a href="#分页列表" class="headerlink" title="分页列表"></a>分页列表</h2>列表这块没有涉及到条件查询和其他操作唯独列表展示，所以客户端只需把页面的第几页和分页数量传过来服务端拿到的分页参数与库里查出来的数据进行处理完给客户端返回去。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">*UserPageReqVO 分页对象</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> PageVO&lt;SysUser&gt; <span class="title">pageInfo</span><span class="params">(UserPageReqVO vo)</span> </span>&#123;</span><br><span class="line">    PageHelper.startPage(vo.getPageNum(),vo.getPageSize());</span><br><span class="line">     List&lt;SysUser&gt; sysUsers = sysUserMapper.selectAll();</span><br><span class="line">     <span class="keyword">return</span> PageUtils.getPageVO(sysUsers);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="用户详情"><a href="#用户详情" class="headerlink" title="用户详情"></a>用户详情</h2><p>客户端将查询人的用户id传过来服务端拿着这个id从库里数据查出来给客户端返回过去。</p>
+<h2 id="刷新token"><a href="#刷新token" class="headerlink" title="刷新token"></a>刷新token</h2><p>当用户退出账号或者是token已经过期了，这时服务端拿着刷新token从令牌内容里查找用户id，再通过用户id查出它的用户信息，主动退出的话，通过用户id去更新角色/权限信息，最后将新生成的token返回给客户端</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Map&lt;String,Object&gt; claims=<span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"><span class="comment">//角色</span></span><br><span class="line">claims.put(Constant.JWT_ROLES_KEY,getRolesByUserId(userId));</span><br><span class="line"><span class="comment">//权限</span></span><br><span class="line">claims.put(Constant.JWT_PERMISSIONS_KEY,getPermissionsByUserId(userId));</span><br><span class="line">String newAccessToken=JwtTokenUtil.refreshToken(refreshToken,claims);<span class="comment">//新的token</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 把刷新的状态存入redis 60S 防止一个功能一次性请求接口还没来得级使用新的token</span></span><br><span class="line"><span class="comment"> * 如果已经刷新过就不在改动</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">redisService.setifAbsen(Constant.JWT_REFRESH_STATUS+accessToken,userId,<span class="number">1</span>,TimeUnit.MINUTES);</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 如果是主动去刷新着 redis 标记新的access_token</span></span><br><span class="line"><span class="comment">* 过期时间为 key=Constant.JWT_REFRESH_KEY+userId 的剩余过期时间</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">if</span>(redisService.hasKey(Constant.JWT_REFRESH_KEY+userId))&#123;            redisService.set(Constant.JWT_REFRESH_IDENTIFICATION+newAccessToken,userId,redisService.getExpire(Constant.JWT_REFRESH_KEY+userId,TimeUnit.MILLISECONDS),TimeUnit.MILLISECONDS);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 用户主动退出或者refreshToken 已经过期</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">if</span>(redisService.hasKey(Constant.JWT_ACCESS_TOKEN_BLACKLIST+refreshToken)</span><br><span class="line">   ||!JwtTokenUtil.validateToken(refreshToken))&#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> BusinessException(BaseResponseCode.TOKEN_ERROR);<span class="comment">//授权信息信息无效</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="用户退出登录"><a href="#用户退出登录" class="headerlink" title="用户退出登录"></a>用户退出登录</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 把token 加入黑名单 禁止再登录</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">redisService.set(Constant.JWT_REFRESH_TOKEN_BLACKLIST+accessToken,userId,JwtTokenUtil.getRemainingTime(accessToken),TimeUnit.MILLISECONDS);</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 把 refreshToken 加入黑名单 禁止再拿来刷新token</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">redisService.set(Constant.JWT_REFRESH_TOKEN_BLACKLIST+refreshToken,userId,JwtTokenUtil.getRemainingTime(refreshToken),TimeUnit.MILLISECONDS);</span><br></pre></td></tr></table></figure>
+<h1 id="权限"><a href="#权限" class="headerlink" title="权限"></a>权限</h1><h2 id="分页权限列表"><a href="#分页权限列表" class="headerlink" title="分页权限列表"></a>分页权限列表</h2><p>用户端将页数和第几页数传过来服务端在从库里将把所有的权限查出来与页面处理完返回给客户端。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">PageHelper.startPage(vo.getPageNum(),vo.getPageSize());</span><br><span class="line">List&lt;SysPermission&gt; list=selectAll();</span><br></pre></td></tr></table></figure>
+<h2 id="查询权限"><a href="#查询权限" class="headerlink" title="查询权限"></a>查询权限</h2><p>用户端将权限的id传过来后台直接库里根据id把权限查出来给客户端返回去。</p>
+<h2 id="更新权限"><a href="#更新权限" class="headerlink" title="更新权限"></a>更新权限</h2><p>服务端根据权限id去查出是否有权限，有的话再将权限内容进行更新。</p>
+<h1 id="角色管理"><a href="#角色管理" class="headerlink" title="角色管理"></a>角色管理</h1><p>与用户管理同理</p>
+<h1 id="角色用户管理"><a href="#角色用户管理" class="headerlink" title="角色用户管理"></a>角色用户管理</h1><p>与用户管理同理</p>
+<p><a href="https://github.com/fankeyayun/bokeauth-shiro.git" target="_blank" rel="noopener">代码地址</a></p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>添加评论功能</title>
     <url>/2019/12/13/hexo%20next7.6%20%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA/</url>
     <content><![CDATA[<ol>
@@ -45,19 +83,15 @@
             <p><br /></p><blockquote class="blockquote-center"><p>    Java中的SerialVersionUID用于Java中的序列化机制，在Java的序列化中，尤其是在使用Eclipse这个IDE的时候，总是会warning说需要给类一个SerialVersionUID，换到IDEA的时候，在创建新类的时候不会warning需要SerialVersionUID的。在看其他的代码中，很容易看到以下的代码。</p><br /></blockquote>
           </div>
 
+<div class="note danger">
+            <p>private static final long serialVersionUID = 1L;</p>
+          </div>
 
-<blockquote>
-<p>private static final long serialVersionUID = 1L;</p>
-</blockquote>
-<h2 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h2><ol>
-<li><p>1L的值作用？</p>
-</li>
-<li><p>不写对序列化有什么影响？</p>
-</li>
-<li><p>保持SerialVersionUID不写，序列化后，类增加或者减少字段，再反序列化会出现什么情况？</p>
-</li>
-<li><p>固定SerialVersionUID不变，序列化后，类增加或者减少字段，再反序列化会出现什么情况？</p>
-</li>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题:"></a>问题:</h2><ol>
+<li>1L的值作用？</li>
+<li>不写对序列化有什么影响？</li>
+<li>保持SerialVersionUID不写，序列化后，类增加或者减少字段，再反序列化会出现什么情况？</li>
+<li>固定SerialVersionUID不变，序列化后，类增加或者减少字段，再反序列化会出现什么情况？</li>
 </ol>
 <p>序列化<br>简单来说，Java的序列化机制是通过判断类的SerialVersionUID来验证版本一致性的。在进行反序列化的时候，JVM会将传来的字节流中的SerialVersionUID与相对应的实体类中的SerialVersionUID进行比较，如果一致，就认为在上一次序列化到现在的反序列这个过程中，实体类没有发生改变，可以进行反序列化，如果不一致就会报错。</p>
 <p>新建一个实体类Person.java</p>

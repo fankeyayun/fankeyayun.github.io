@@ -57,7 +57,7 @@
 <meta property="og:description" content="Java序列化机制是通过类的serialVersionUID来验证版本一致性的。在反序列化时，jvm会把传来的字节流中的serialVersionUID和本地相应实体类的serialVersionUID进行比较，如果相同就认为一致，可以进行反序列化，否则出现InvalidCastException异常">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http:&#x2F;&#x2F;q26gxmwz0.bkt.clouddn.com&#x2F;8.jpg">
-<meta property="og:updated_time" content="2019-12-23T09:31:39.788Z">
+<meta property="og:updated_time" content="2019-12-24T01:20:30.424Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;q26gxmwz0.bkt.clouddn.com&#x2F;8.jpg">
 
@@ -281,19 +281,15 @@
             <p><br /></p><blockquote class="blockquote-center"><p>    Java中的SerialVersionUID用于Java中的序列化机制，在Java的序列化中，尤其是在使用Eclipse这个IDE的时候，总是会warning说需要给类一个SerialVersionUID，换到IDEA的时候，在创建新类的时候不会warning需要SerialVersionUID的。在看其他的代码中，很容易看到以下的代码。</p><br /></blockquote>
           </div>
 
+<div class="note danger">
+            <p>private static final long serialVersionUID = 1L;</p>
+          </div>
 
-<blockquote>
-<p>private static final long serialVersionUID = 1L;</p>
-</blockquote>
-<h2 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h2><ol>
-<li><p>1L的值作用？</p>
-</li>
-<li><p>不写对序列化有什么影响？</p>
-</li>
-<li><p>保持SerialVersionUID不写，序列化后，类增加或者减少字段，再反序列化会出现什么情况？</p>
-</li>
-<li><p>固定SerialVersionUID不变，序列化后，类增加或者减少字段，再反序列化会出现什么情况？</p>
-</li>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题:"></a>问题:</h2><ol>
+<li>1L的值作用？</li>
+<li>不写对序列化有什么影响？</li>
+<li>保持SerialVersionUID不写，序列化后，类增加或者减少字段，再反序列化会出现什么情况？</li>
+<li>固定SerialVersionUID不变，序列化后，类增加或者减少字段，再反序列化会出现什么情况？</li>
 </ol>
 <p>序列化<br>简单来说，Java的序列化机制是通过判断类的SerialVersionUID来验证版本一致性的。在进行反序列化的时候，JVM会将传来的字节流中的SerialVersionUID与相对应的实体类中的SerialVersionUID进行比较，如果一致，就认为在上一次序列化到现在的反序列这个过程中，实体类没有发生改变，可以进行反序列化，如果不一致就会报错。</p>
 <p>新建一个实体类Person.java</p>
@@ -428,7 +424,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题："><span class="nav-number">1.</span> <span class="nav-text">问题：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结果："><span class="nav-number">2.</span> <span class="nav-text">结果：</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结果："><span class="nav-number">2.</span> <span class="nav-text">结果：</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -444,7 +440,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -497,12 +493,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">24k</span>
+    <span title="站点总字数">28k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">22 分钟</span>
+    <span title="站点阅读时长">26 分钟</span>
 </div>
 
 <div id="days"></div>
